@@ -15,7 +15,6 @@ public class App
        
 		try {
 			 System.out.println( "Hello World!" );
-			 System.out.println("git commit test!");
 			 //测试时候执行
 //			 ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
 			 //打jar包执行
