@@ -1,0 +1,6 @@
+com\lawyer\service\user\impl\UserServiceImpl.class
+com\lawyer\dao\member\DrMemberDAO.class
+com\lawyer\service\user\UserService.class
+com\lawyer\bean\user\DrMember.class
+com\lawyer\utils\log\LogAppender.class
+com\lawyer\controller\App.class
