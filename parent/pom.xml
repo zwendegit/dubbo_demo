@@ -8,6 +8,7 @@
   <modules>
     <module>hls</module>
     <module>lawyer</module>
+    <module>TaskMq</module>
   </modules>
   <properties>
     <spring-version>3.2.2.RELEASE</spring-version>
