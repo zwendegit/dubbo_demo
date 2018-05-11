@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:jms="http://www.springframework.org/schema/jms"
+	xmlns:amq="http://activemq.apache.org/schema/core"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+        http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx-3.0.xsd 
+		http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+        http://www.springframework.org/schema/jms
+        http://www.springframework.org/schema/jms/spring-jms-3.0.xsd
+        http://activemq.apache.org/schema/core 
+        http://activemq.apache.org/schema/core/activemq-core-5.14.5.xsd" default-autowire="byName">
+     <context:property-placeholder location="classpath:properties/*.properties" />
+     <import resource="classpath:spring-servlet.xml"/>
+     <import resource="classpath:spring-dubbo.xml"/>
+     
+     <!-- activitymq 配置 -->
+   <!-- 连接 activemq-->
+    <amq:connectionFactory id="amqConnectionFactory" brokerURL="${activemq_url}" userName="${activemq_username}" password="${activemq_password}"/>
+    <!-- 这里可以采用连接池的方式连接PooledConnectionFactoryBean -->
+    <bean id="connectionFactory" class="org.springframework.jms.connection.CachingConnectionFactory">
+        <!-- 配置连接 -->
+        <property name="targetConnectionFactory" ref="amqConnectionFactory"/>
+        <!-- 会话的最大连接数 -->
+        <property name="sessionCacheSize" value="100"/>
+    </bean>
+    
+    <!-- 定义消息队列topic类型，queue的方式差不多 -->
+    <bean id="queue" class="org.apache.activemq.command.ActiveMQQueue">
+        <!-- 定义名称 -->
+        <constructor-arg index="0" value="queue1,queue2"/>
+    </bean>
+        
+    <!-- 配置JMS模板（topic），Spring提供的JMS工具类，它发送、接收消息。 -->
+    <!-- 为了测试发送消息，保留jmsTemplate的配置，实际不存在发送，只需要配置监听即可 -->
+    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <property name="defaultDestination" ref="queue"/>
+        <!-- 非pub/sub模型（发布/订阅），true为topic,false为queue --> 
+        <property name="pubSubDomain" value="false"/>
+    </bean>
+    
+    <!-- 监听方式，这种方式更实用，可以一直监听消息 -->
+    <bean id="queueMessageListen" class="com.taskmq.service.message.MessageListen"/>    
+    <bean id="defaultMessageListenerContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <!-- 注册activemq名称 -->
+        <property name="destination" ref="queue"/>
+        <property name="messageListener" ref="queueMessageListen"/>
+    </bean>
+</beans>

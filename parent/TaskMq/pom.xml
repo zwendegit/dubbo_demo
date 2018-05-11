@@ -7,11 +7,13 @@
   </parent>
   <groupId>task</groupId>
   <artifactId>TaskMq</artifactId>
+  <dependencies>
   
+    
+  </dependencies>
   
   <build>
        <plugins>
-       
        <plugin>
            <groupId>org.apache.maven.plugins</groupId>
            <artifactId>maven-compiler-plugin</artifactId>
@@ -55,7 +57,7 @@
                         </descriptorRefs>
                         <archive>
                              <manifest>
-                                  <mainClass>com/taskMq/controller/App</mainClass>  
+                                  <mainClass>com/taskMq/controller/Task</mainClass>  
 
 <!--此处填写包含入口函数的类-->
                              </manifest>
