@@ -7,6 +7,7 @@ import javax.jms.Session;
 import javax.jms.TextMessage;
 
 import org.apache.activemq.command.ActiveMQDestination;
+import org.apache.activemq.command.ActiveMQQueue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
@@ -39,12 +40,14 @@ public class MessageSendServiceImpl implements MessageSendService{
 		if(StringUtils.isEmpty(queueName)){
 			destination=jmsTemplate.getDefaultDestination();
 		}else{
-			ActiveMQDestination activeMQDestination=(ActiveMQDestination) destination;
-			if(queueName.equals("queue1")){
-				destination=activeMQDestination.getCompositeDestinations()[0];
-			}else{//queue2
-				destination=activeMQDestination.getCompositeDestinations()[1];
-			}
+////			ActiveMQDestination activeMQDestination=(ActiveMQDestination) destination;
+//			if(queueName.equals("queue1")){
+////				destination=activeMQDestination.getCompositeDestinations()[0];
+//			}else{//queue2
+////				destination=activeMQDestination.getCompositeDestinations()[1];
+//				
+//			}
+			destination=new ActiveMQQueue(queueName);
 		}
 		jmsTemplate.send(destination, new MessageCreator() {
 			

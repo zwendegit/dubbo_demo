@@ -18,7 +18,7 @@ public class MessageListen implements MessageListener{
 
 	@Override
 	public void onMessage(Message arg0) {
-		 System.out.println("监听==================监听");
+//		 System.out.println("监听==================监听");
 	        try {
 	        	ActiveMQDestination queues=(ActiveMQDestination)arg0.getJMSDestination(); 
 	        	if(queues.getPhysicalName().equals("queue1")){//文本消息

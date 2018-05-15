@@ -40,6 +40,7 @@ public class DemoController {
 	
 	@RequestMapping("mqQueue")
 	public String mqQueue(String queueName){
+		System.out.println("start");
 		String text="this is a text";
 		messageSendService.sendMessage(queueName, text);
 		return "index";
