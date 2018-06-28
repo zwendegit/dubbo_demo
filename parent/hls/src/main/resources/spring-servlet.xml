@@ -91,4 +91,9 @@
     <bean id="redisUtil" class="com.hls.utils.redis.RedisUtil">
         <property name="redisTemplate" ref="redisTemplate" />
     </bean> -->
+    <!-- 自定义切面AOP -->
+    <aop:aspectj-autoproxy proxy-target-class="true">
+        <aop:include name="testAopAspect" />
+    </aop:aspectj-autoproxy>
+    <bean id="testAopAspect" class="com.hls.utils.aop.TestAopAspect"></bean>
 </beans>

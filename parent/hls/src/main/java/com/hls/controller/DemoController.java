@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
+import com.hls.utils.aop.TestAop;
 import com.lawyer.bean.user.DrMember;
 import com.lawyer.service.user.UserService;
 import com.taskmq.service.message.MessageSendService;
@@ -25,7 +26,7 @@ public class DemoController {
 //		return "index";
 		return JSON.toJSONString(member);
 	}
-	
+	@SuppressWarnings("all") 
 	@RequestMapping("index")
 	public String index(){
 		DrMember member= userService.test();
@@ -37,7 +38,7 @@ public class DemoController {
 		messageSendService.sendMessageText(text);
 		return "index";
 	}
-	
+	@TestAop(requestUrl = "mqQueue")
 	@RequestMapping("mqQueue")
 	public String mqQueue(String queueName){
 		System.out.println("start");

@@ -18,10 +18,11 @@
 	<!-- 定义生产者组 -->
 	<dubbo:provider group="${dubbo.group}" />
 	<!-- 定义消费者组 -->
-	<dubbo:consumer check="false" group="${dubbo.group}" timeout="1000" />
+	<dubbo:consumer check="false" group="${dubbo.group}" timeout="10000" />
 	
 	<!--服务提供 -->
    <!--  <dubbo:service ref="*" interface="*" version="1.0"  owner="zw"/> -->
     <!-- 服务消费 -->
      <dubbo:reference id="userService" interface="com.lawyer.service.user.UserService" version="1.0"></dubbo:reference>
+     <dubbo:reference id="sendMessageService" interface="com.taskmq.service.message.MessageSendService" version="1.0"  owner="zw"/>
 </beans>
